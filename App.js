@@ -11,18 +11,24 @@ import {
   Platform,
   Button
 } from 'react-native';
-import {AppLoading} from "expo";
+import { AppLoading } from "expo";
 import ToDo from "./ToDo";
-const {height, width} = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 export default class App extends Component {
   state = {
     newToDo: "",
     loadedToDos: false
   };
-
+  componentDidMount = () =>{
+    this._loadToDos();
+  }
   render(){
     const {newToDo, loadedToDos} = this.state;
     
+  if (!loadedToDos){
+    return <AppLoading/>;
+  }
+ 
   return (
     <View style={styles.container}>
       <StatusBar barStyle='light-content' backgroundColor={'transparent'} translucent={true}/>
@@ -48,6 +54,11 @@ export default class App extends Component {
       newToDo: text
     })
   }
+  _loadToDos = () => {
+    this.setState({
+      loadedToDos:true
+    });
+  };
 };
 
 const styles = StyleSheet.create({
